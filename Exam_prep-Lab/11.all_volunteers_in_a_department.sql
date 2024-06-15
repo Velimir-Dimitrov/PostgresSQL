@@ -1,0 +1,26 @@
+CREATE OR REPLACE FUNCTION fn_get_volunteers_count_from_department(searched_volunteers_department VARCHAR(30))
+RETURNS INT
+AS
+$$
+DECLARE
+	num_volunteers INT;
+BEGIN
+	SELECT
+		COUNT(*) INTO num_volunteers
+	FROM
+		volunteers AS v
+	JOIN
+		volunteers_departments AS v_d
+	ON
+		v.department_id = v_d.id
+	WHERE
+		v_d.department_name = searched_volunteers_department;
+	RETURN num_volunteers;
+END;
+$$
+LANGUAGE plpgsql;
+
+
+-- SELECT fn_get_volunteers_count_from_department('Education program assistant')
+-- SELECT fn_get_volunteers_count_from_department('Guest engagement')
+-- SELECT fn_get_volunteers_count_from_department('Zoo events')
